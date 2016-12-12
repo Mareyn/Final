@@ -1,0 +1,1339 @@
+#include <cstdlib>
+#include <iostream>
+#include <limits> // Needed for numeric_limits<streamsize>::max()
+#include <fstream>
+#include <iostream>
+
+using namespace std;
+
+void displayMainMenu();
+void displayFootballTeam();
+void displayFootballPlayers();
+void displayFootballSchedule();
+void displayFootballRules();
+void displayVolleyballTeam();
+void displayVolleyballPlayers();
+void displayVolleyballSchedule();
+void displayVolleyballRules();
+void displayFootballMenu();
+void displayVolleyballMenu();
+int loadFootballTeam();
+int loadFootballPlayers();
+int loadFootballSchedule();
+int loadFootbalRules();
+int loadVolleyballTeam();
+int loadVolleyballPlayers();
+int loadVolleyballSchedule();
+int loadVolleyballRules();
+bool saveFootballTeam();
+bool saveFootballPlayers();
+bool saveFootballScheudule();
+bool saveFootballRules();
+bool saveVolleyballTeam();
+bool saveVolleyballPlayers();
+bool saveVolleyballSchedule();
+bool saveVolleyballRules();
+
+const int FTEAM = 10;
+string FTeam[FTEAM];
+const int FPLAYERS = 10;
+string FPlayers[FPLAYERS];
+const int FSCHEDULE = 10;
+string FSchedule[FSCHEDULE];
+const int FRULES = 10;
+string FRules[FRULES];
+const int VTEAM = 10;
+string VTeam[VTEAM];
+const int VPLAYERS = 10;
+string VPlayers[VPLAYERS];
+const int VSCHEDULE = 10;
+string VSchedule[VSCHEDULE];
+const int VRULES = 10;
+string VRules[VRULES];
+int choice = -1;
+int main() {
+    displayMainMenu();
+    if (choice == 1)
+
+    return 0;
+}
+
+void displayMainMenu() {
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "       Intramural Sports\n";
+        cout << "===============================\n";
+        cout << "1. Football\n";
+        cout << "2. Volleyball\n";
+        cout << "0. Exit\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+        system("cls");
+
+        while (cin.fail() || choice < 0 || choice > 11) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            displayFootballMenu();
+            system ("cls");
+            break;
+        case 2:
+            displayVolleyballMenu();
+            system("cls");
+            break;
+
+        }
+    }
+}
+
+void displayFootballMenu()
+{
+    while (choice != 0) {
+            cout << "===========================\n";
+            cout << "          Football\n";
+            cout << "===========================\n";
+            cout << "1.  Teams\n";
+            cout << "2.  Players\n";
+            cout << "3.  Schedule\n";
+            cout << "4.  Rules\n";
+            cout << "5. Main Menu\n";
+            cout << "0.  Exit\n";
+            cout << "\n";
+            cout << "Please enter a menu selection: ";
+            cin >> choice;
+            system("cls");
+    switch(choice) {
+        case 0:
+            return;
+        case 1:
+            displayFootballTeam();
+            system("cls");
+            break;
+
+        case 2:
+            displayFootballRules();
+            system("cls");
+            break;
+
+        case 3:
+            displayFootballSchedule();
+            system("cls");
+            break;
+
+        case 4:
+            displayFootballRules();
+            system("cls");
+            break;
+    }
+}
+}
+void displayVolleyballMenu()
+{
+    while (choice != 0) {
+    cout << "===========================\n";
+    cout << "          Volleyball\n";
+    cout << "===========================\n";
+    cout << "1.  Teams\n";
+    cout << "2.  Players\n";
+    cout << "3.  Schedule\n";
+    cout << "4.  Rules\n";
+    cout << "0.  Exit\n";
+    cout << "\n";
+    cout << "Please enter a menu selection: ";
+    cin >> choice;
+    system("cls");
+
+    switch(choice) {
+        case 0:
+            return;
+        case 1:
+            displayVolleyballTeam();
+            system("cls");
+            break;
+
+        case 2:
+            displayVolleyballPlayers();
+            system("cls");
+            break;
+
+        case 3:
+            displayVolleyballSchedule();
+            system("cls");
+            break;
+
+        case 4:
+            displayVolleyballRules();
+            system("cls");
+            break;
+    }
+}
+}
+void displayFootballTeam() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "          Football Team\n";
+        cout << "===============================\n";
+
+        int recordCount = loadFootballTeam();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= FTEAM) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> FTeam[recordCount];
+
+                bool saveSuccess = saveFootballTeam();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> FTeam[updateChoice-1];
+
+                if(saveFootballTeam()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                FTeam[deleteChoice-1] = "";
+                if(saveFootballTeam()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayFootballPlayers() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "        Football Players\n";
+        cout << "===============================\n";
+
+        int recordCount = loadFootballPlayers();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= FPLAYERS) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> FPlayers[recordCount];
+
+                bool saveSuccess = saveFootballPlayers();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> FPlayers[updateChoice-1];
+
+                if(saveFootballPlayers()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                FPlayers[deleteChoice-1] = "";
+                if(saveFootballPlayers()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayFootballSchedule() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "       Football Schedule\n";
+        cout << "===============================\n";
+
+        int recordCount = loadFootballSchedule();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= FSCHEDULE) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> FSchedule[recordCount];
+
+                bool saveSuccess = saveFootballScheudule();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> FSchedule[updateChoice-1];
+
+                if(saveFootballScheudule()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                FSchedule[deleteChoice-1] = "";
+                if(saveFootballScheudule()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayFootballRules() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "        Football Rules\n";
+        cout << "===============================\n";
+
+        int recordCount = loadFootbalRules();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= FRULES) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> FRules[recordCount];
+
+                bool saveSuccess = saveFootballRules();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> FRules[updateChoice-1];
+
+                if(saveFootballRules()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                FRules[deleteChoice-1] = "";
+                if(saveFootballRules()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayVolleyballTeam() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "        Volleyball Team\n";
+        cout << "===============================\n";
+
+        int recordCount = loadVolleyballTeam();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= VTEAM) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> VTeam[recordCount];
+
+                bool saveSuccess = saveVolleyballTeam();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> VTeam[updateChoice-1];
+
+                if(saveVolleyballTeam()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                VTeam[deleteChoice-1] = "";
+                if(saveVolleyballTeam()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayVolleyballPlayers() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "      Volleyball Players\n";
+        cout << "===============================\n";
+
+        int recordCount = loadVolleyballPlayers();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= VPLAYERS) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> VPlayers[recordCount];
+
+                bool saveSuccess = saveVolleyballPlayers();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> VPlayers[updateChoice-1];
+
+                if(saveVolleyballPlayers()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                VPlayers[deleteChoice-1] = "";
+                if(saveVolleyballPlayers()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayVolleyballSchedule() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "      Volleyball Schedule\n";
+        cout << "===============================\n";
+
+        int recordCount = loadVolleyballSchedule();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= VSCHEDULE) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> VSchedule[recordCount];
+
+                bool saveSuccess = saveVolleyballSchedule();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> VSchedule[updateChoice-1];
+
+                if(saveVolleyballSchedule()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                VSchedule[deleteChoice-1] = "";
+                if(saveVolleyballSchedule()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+void displayVolleyballRules() {
+    system("cls");
+    int updateChoice = -1;
+    int deleteChoice = -1;
+
+    int choice = -1;
+
+    while (choice != 0) {
+        cout << "===============================\n";
+        cout << "       Volleyball Rules\n";
+        cout << "===============================\n";
+
+        int recordCount = loadVolleyballRules();
+
+        cout << "\n";
+        cout << "1. Add\n";
+        cout << "2. Update\n";
+        cout << "3. Delete\n";
+        cout << "0. Return to the Main Menu\n";
+
+        cout << "\n";
+        cout << "Please enter a menu selection: ";
+        cin >> choice;
+
+        while (cin.fail() || choice < 0 || choice > 3) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "\n";
+            cout << "Please enter a VALID menu selection: ";
+            cin >> choice;
+        } // end of inner while loop
+
+        switch(choice) {
+        case 0:
+            return;
+        case 1:
+            cout << "\n";
+            if (recordCount >= VRULES) {
+                cout << "Sorry List is Full\n\n";
+            } else {
+                cout << "Enter a new list item: ";
+                cin >> VRules[recordCount];
+
+                bool saveSuccess = saveVolleyballRules();
+                if(saveSuccess) system("cls");
+
+            }
+            break;
+
+        case 2:
+            updateChoice = -1;
+            cout << "Enter a list item number to be updated or 0 to return: ";
+            cin >> updateChoice;
+
+            while (cin.fail() || updateChoice < 0 || updateChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be updated or 0 to return: ";
+                cin >> updateChoice;
+            } // end of inner while
+
+            if (updateChoice == 0) {
+                system("cls");
+            } else {
+                cout << "Updated item: ";
+                cin >> VRules[updateChoice-1];
+
+                if(saveVolleyballRules()) system("cls");  // only clear the screen
+            }
+
+            break;
+
+        case 3:
+            deleteChoice = -1;
+            cout << "Enter a list item number to be deleted or 0 to return: ";
+            cin >> deleteChoice;
+
+            while (cin.fail() || deleteChoice < 0 || deleteChoice > recordCount) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "\n";
+                cout << "Please enter a VALID item to be deleted or 0 to return: ";
+                cin >> deleteChoice;
+            } // end of inner while
+
+            if (deleteChoice == 0) {
+                system("cls");
+            } else {
+                VRules[deleteChoice-1] = "";
+                if(saveVolleyballRules()) system("cls");  // only clear screen if successful
+            }
+
+            break;
+        } // end of switch statement
+
+    } // end of while loop for redisplaying the sub menu
+}
+
+int loadFootballTeam() {
+    int recordCount = 0;
+
+    ifstream inFile("FT.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> FTeam[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << FTeam[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < FTEAM; j++) {
+        FTeam[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadFootballPlayers() {
+    int recordCount = 0;
+
+    ifstream inFile("FP.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> FPlayers[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << FPlayers[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < FPLAYERS; j++) {
+        FPlayers[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadFootballSchedule() {
+    int recordCount = 0;
+
+    ifstream inFile("FS.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> FSchedule[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << FSchedule[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < FSCHEDULE; j++) {
+        FSchedule[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadFootbalRules() {
+    int recordCount = 0;
+
+    ifstream inFile("FR.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> FRules[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << FRules[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < FRULES; j++) {
+        FRules[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadVolleyballTeam() {
+    int recordCount = 0;
+
+    ifstream inFile("VT.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> VTeam[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << VTeam[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < VTEAM; j++) {
+        VTeam[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadVolleyballPlayers() {
+    int recordCount = 0;
+
+    ifstream inFile("myList.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "VP:\n";
+    while(inFile >> VPlayers[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << VPlayers[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < VPLAYERS; j++) {
+        VPlayers[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadVolleyballSchedule() {
+    int recordCount = 0;
+
+    ifstream inFile("VS.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> VSchedule[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << VSchedule[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < VSCHEDULE; j++) {
+        VSchedule[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+int loadVolleyballRules() {
+    int recordCount = 0;
+
+    ifstream inFile("VR.txt");
+
+    if(inFile.fail()) {
+        cout << "ERROR:: Unable to open myList.txt!!!\n\n" << endl;
+        return 0; // no records loaded
+    }
+
+    cout << "\n";
+    cout << "My List:\n";
+    while(inFile >> VRules[recordCount]) {
+        cout << "    " << recordCount+1 << ". " << VRules[recordCount] << "\n";
+        recordCount++;
+    }
+    if(recordCount==0) cout << "My List is EMPTY :(\n\n";
+
+    inFile.close();
+
+    for(int j=recordCount; j < VRULES; j++) {
+        VRules[j] = "";  //set the remanding array elements to an empty string
+    }
+
+    return recordCount;
+}
+
+bool saveFootballTeam() {
+    ofstream outFile("FT.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < FTEAM; i++) {
+        if(FTeam[i]> "") {
+            outFile << FTeam[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveFootballPlayers() {
+    ofstream outFile("FP.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < FPLAYERS; i++) {
+        if(FPlayers[i]> "") {
+            outFile << FPlayers[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveFootballScheudule() {
+    ofstream outFile("FS.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < FSCHEDULE; i++) {
+        if(FSchedule[i]> "") {
+            outFile << FSchedule[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveFootballRules() {
+    ofstream outFile("FR.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < FRULES; i++) {
+        if(FRules[i]> "") {
+            outFile << FRules[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveVolleyballTeam() {
+    ofstream outFile("VT.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < VTEAM; i++) {
+        if(VTeam[i]> "") {
+            outFile << VTeam[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveVolleyballPlayers() {
+    ofstream outFile("VP.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < VPLAYERS; i++) {
+        if(VPlayers[i]> "") {
+            outFile << VPlayers[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveVolleyballSchedule() {
+    ofstream outFile("VS.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < VSCHEDULE; i++) {
+        if(VSchedule[i]> "") {
+            outFile << VSchedule[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool saveVolleyballRules() {
+    ofstream outFile("VR.txt");
+
+    if(outFile.fail()) {
+        cout << "\n";
+        cout << "ERROR:: Unable to save MyList.txt!\n\n";
+        return false;
+    }
+
+    for (int i=0; i < VRULES; i++) {
+        if(VRules[i]> "") {
+            outFile << VRules[i] << "\n";
+        }
+    }
+
+    outFile.close();
+    return true;
+}
